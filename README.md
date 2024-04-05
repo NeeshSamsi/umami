@@ -83,19 +83,12 @@ docker pull ghcr.io/umami-software/umami:mysql-latest
 
 ## Getting updates
 
-To get the latest features, simply do a pull, install any new dependencies, and rebuild:
-
 ```bash
-git pull
-yarn install
-yarn build
-```
+git fetch upstream
 
-To update the Docker image, simply pull the new images and rebuild:
+git merge upstream/master
 
-```bash
-docker compose pull
-docker compose up --force-recreate
+git push origin master
 ```
 
 ## License
