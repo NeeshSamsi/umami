@@ -1,0 +1,32 @@
+name: Upstream Sync
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "0 0 * * 5" # Every Friday at midnight
+  workflow_dispatch:
+
+jobs:
+  sync_latest_from_upstream:
+    name: Sync latest from upstream
+    runs-on: ubuntu-latest
+    if: ${{ github.event.repository.fork }}
+
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Sync upstream changes
+        id: sync
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+        with:
+          target_sync_branch: master
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+          upstream_sync_repo: umami-software/umami
+          upstream_sync_branch: master
+          test_mode: false
